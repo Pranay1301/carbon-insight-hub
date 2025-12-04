@@ -97,6 +97,12 @@ export function setupAutoSave(callback: () => void): () => void {
   const interval = setInterval(callback, AUTO_SAVE_INTERVAL);
   return () => clearInterval(interval);
 }
+export function formatLastSaved(): string {
+  const data = loadAssessmentData();
+  if (!data || !data.lastUpdated) return "Never";
+  return new Date(data.lastUpdated).toLocaleString();
+}
+
 // ... existing code ...
 
 const HISTORY_KEY = "esg_assessment_history";
