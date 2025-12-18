@@ -73,14 +73,34 @@ export function clearAssessmentData(): void {
 export function createNewAssessment(): ESGAssessmentData {
   return {
     id: crypto.randomUUID(),
+    startedAt: Date.now(),
     lastUpdated: Date.now(),
+    currentStep: "region-selection",
     completionStatus: {
       profile: false,
       environmental: false,
       social: false,
       governance: false
     },
-    profile: {},
+    profile: {
+      organizationName: "",
+      organizationSize: "medium",
+      industrySector: "manufacturing",
+      annualRevenue: 0,
+      numberOfEmployees: 0,
+      countriesOfOperation: [],
+      reportingFrameworks: [],
+      publishesSustainabilityReports: "no",
+      assessmentPeriodFrom: new Date().toISOString().split('T')[0],
+      assessmentPeriodTo: new Date().toISOString().split('T')[0],
+    },
+    materiality: [],
+    policies: { policies: [] },
+    risksOpportunities: [],
+    dataProcess: {},
+    stakeholderEngagement: [],
+    quantitativeData: [],
+    // Legacy support
     environmental: {},
     social: {},
     governance: {}

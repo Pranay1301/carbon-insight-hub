@@ -31,6 +31,20 @@ import SectorDashboard from "./pages/carbon/footprint/SectorDashboard";
 import Methodology from "./pages/carbon/footprint/Methodology";
 import SectorPlaceholder from "./pages/carbon/footprint/SectorPlaceholder";
 
+// New ESG Due Diligence Module
+import ESGDueDiligenceLayout from "./pages/esg-due-diligence/ESGDueDiligenceLayout";
+import Landing from "./pages/esg-due-diligence/Landing";
+import ProjectSetup from "./pages/esg-due-diligence/ProjectSetup";
+import MaterialityAssessment from "./pages/esg-due-diligence/MaterialityAssessment";
+import PolicyInput from "./pages/esg-due-diligence/PolicyInput";
+import RiskAssessment from "./pages/esg-due-diligence/RiskAssessment";
+import DataProcessReview from "./pages/esg-due-diligence/DataProcessReview";
+import StakeholderEngagement from "./pages/esg-due-diligence/StakeholderEngagement";
+import DataGathering from "./pages/esg-due-diligence/DataGathering";
+import GapAnalysis from "./pages/esg-due-diligence/GapAnalysis";
+import ScoringDashboard from "./pages/esg-due-diligence/ScoringDashboard";
+import FinalReport from "./pages/esg-due-diligence/FinalReport";
+
 // Auth & User Management
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -83,6 +97,21 @@ const App = () => (
           <Route path="/carbon-footprint/dashboard" element={<SectorDashboard />} />
           <Route path="/carbon-footprint/methodology" element={<Methodology />} />
           <Route path="/carbon-footprint/:sectorId" element={<SectorPlaceholder />} />
+
+          {/* New ESG Due Diligence Module */}
+          <Route path="/esg-due-diligence" element={<ESGDueDiligenceLayout />}>
+            <Route index element={<Landing />} />
+            <Route path="setup" element={<ProjectSetup />} />
+            <Route path="materiality" element={<MaterialityAssessment />} />
+            <Route path="policies" element={<PolicyInput />} />
+            <Route path="risks" element={<RiskAssessment />} />
+            <Route path="data-process" element={<DataProcessReview />} />
+            <Route path="stakeholders" element={<StakeholderEngagement />} />
+            <Route path="data-gathering" element={<DataGathering />} />
+            <Route path="gap-analysis" element={<GapAnalysis />} />
+            <Route path="scoring" element={<ScoringDashboard />} />
+            <Route path="report" element={<FinalReport />} />
+          </Route>
 
           {/* Other Routes */}
           <Route path="/about" element={<About />} />

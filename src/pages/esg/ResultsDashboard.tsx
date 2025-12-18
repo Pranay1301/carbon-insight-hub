@@ -1,5 +1,5 @@
-import { useState } from "react";
-// ... existing imports
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   loadAssessmentData,
   clearAssessmentData,
@@ -30,6 +30,53 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import { calculateESGScores } from "@/lib/esg/scoring";
+import { generateRecommendations } from "@/lib/esg/recommendations";
+
+const getRiskColor = (level: string) => {
+  switch (level) {
+    case "low": return "bg-green-500 hover:bg-green-600";
+    case "medium": return "bg-yellow-500 hover:bg-yellow-600";
+    case "high": return "bg-orange-500 hover:bg-orange-600";
+    case "critical": return "bg-red-500 hover:bg-red-600";
+    default: return "bg-slate-500";
+  }
+};
+
+const getAlignmentColor = (alignment: string) => {
+  switch (alignment) {
+    case "fully-aligned": return "text-green-600";
+    case "partially-aligned": return "text-yellow-600";
+    case "developing": return "text-orange-600";
+    case "not-aligned": return "text-red-600";
+    case "critical-gaps": return "text-red-700";
+    default: return "text-slate-600";
+  }
+};
+
+const getPriorityColor = (priority: string) => {
+  switch (priority) {
+    case "critical": return "destructive";
+    case "high": return "destructive";
+    case "medium": return "secondary";
+    default: return "outline";
+  }
+}
+
+const benchmark = {
+  averageE: 45,
+  topQuartileE: 75,
+  averageS: 50,
+  topQuartileS: 80,
+  averageG: 55,
+  topQuartileG: 85
+};
 
 const ResultsDashboard = () => {
   const navigate = useNavigate();
@@ -38,14 +85,28 @@ const ResultsDashboard = () => {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyItems, setHistoryItems] = useState<ESGHistoryItem[]>([]);
 
-  // ... existing useEffect ...
+  useEffect(() => {
+    loadHistory();
+  }, []);
 
-  if (!assessmentData) return null;
+  if (!assessmentData) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 py-8 flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4">No Assessment Data Found</h2>
+            <p className="text-muted-foreground mb-6">Please start a new assessment to see results.</p>
+            <Button onClick={() => navigate("/esg-assessment")}>Start New Assessment</Button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const scores = calculateESGScores(assessmentData);
-  // ... existing constants ...
-
-  // ... existing helper functions ...
+  const recommendations = generateRecommendations(scores, assessmentData.profile.industrySector || "manufacturing");
 
   const handleStartNew = () => {
     if (window.confirm("Are you sure you want to start a new assessment? This will clear your current data.")) {
@@ -159,8 +220,6 @@ const ResultsDashboard = () => {
               </Button>
             </div>
           </div>
-
-          {/* ... rest of the component ... */}
 
           <Card className="p-8 mb-8 border-2">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -298,6 +357,7 @@ const ResultsDashboard = () => {
                       <h3 className="font-semibold text-foreground">{rec.issue}</h3>
                     </div>
                     <div className="flex items-center gap-2">
+                      {/* Fixed Badge usage with correct helper */}
                       <Badge variant={getPriorityColor(rec.priority) as any}>
                         {rec.priority.toUpperCase()}
                       </Badge>
