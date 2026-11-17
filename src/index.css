@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Sustainable green palette for Trace Resource */
+    /* Sustainable green palette for GreenLedger */
     --background: 0 0% 100%;
     --foreground: 150 10% 15%;
     --card: 0 0% 100%;

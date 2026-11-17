@@ -10,7 +10,7 @@ import { Zap, Flame, ArrowLeft, History, Save, Trash2, Eye } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import { GRID_REGIONS } from '../../../lib/carbon/sectors/factors';
 import { calculateElectricity, calculateFuel } from '../../../lib/carbon/sectors/energy';
-import { CalculationResult } from '../../../types/carbon-sectors';
+import { CalculationResult, FuelInput } from '../../../types/carbon-sectors';
 import {
     saveToHistory,
     getHistoryByType,
@@ -42,8 +42,8 @@ const EnergyCalculator = () => {
     const [elecResult, setElecResult] = useState<CalculationResult | null>(null);
 
     // Fuel State
-    const [fuelType, setFuelType] = useState<string>('natural_gas');
-    const [fuelUnit, setFuelUnit] = useState<string>('m3');
+    const [fuelType, setFuelType] = useState<FuelInput['type']>('natural_gas');
+    const [fuelUnit, setFuelUnit] = useState<FuelInput['unit']>('m3');
     const [fuelAmount, setFuelAmount] = useState<number>(0);
     const [fuelResult, setFuelResult] = useState<CalculationResult | null>(null);
 
@@ -59,7 +59,6 @@ const EnergyCalculator = () => {
 
     const handleFuelCalculate = () => {
         const result = calculateFuel({
-            // @ts-ignore
             type: fuelType,
             amount: fuelAmount,
             unit: fuelUnit
@@ -90,15 +89,15 @@ const EnergyCalculator = () => {
     const handleLoadHistoryItem = (item: FootprintHistoryItem) => {
         if (item.inputs.subType === 'electricity') {
             setActiveTab('electricity');
-            setElecUsage(item.inputs.usage);
-            setElecUnit(item.inputs.unit);
+            setElecUsage(item.inputs.usage ?? 0);
+            setElecUnit(item.inputs.unit === 'MWh' ? 'MWh' : 'kWh');
             setGridRegion(item.inputs.gridRegion);
             setElecResult(item.result);
         } else if (item.inputs.subType === 'fuel') {
             setActiveTab('fuels');
-            setFuelType(item.inputs.type);
-            setFuelAmount(item.inputs.amount);
-            setFuelUnit(item.inputs.unit);
+            setFuelType(item.inputs.type as FuelInput['type']);
+            setFuelAmount(item.inputs.amount ?? 0);
+            setFuelUnit(item.inputs.unit ?? 'm3');
             setFuelResult(item.result);
         }
         setHistoryOpen(false);
@@ -229,7 +228,7 @@ const EnergyCalculator = () => {
                                             onChange={(e) => setElecUsage(Number(e.target.value))}
                                             placeholder="e.g. 50000"
                                         />
-                                        <Select value={elecUnit} onValueChange={(v: any) => setElecUnit(v)}>
+                                        <Select value={elecUnit} onValueChange={(v) => setElecUnit(v as 'kWh' | 'MWh')}>
                                             <SelectTrigger className="w-[100px]">
                                                 <SelectValue />
                                             </SelectTrigger>
@@ -275,7 +274,7 @@ const EnergyCalculator = () => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="space-y-2">
                                     <Label>Fuel Type</Label>
-                                    <Select value={fuelType} onValueChange={setFuelType}>
+                                    <Select value={fuelType} onValueChange={(v) => setFuelType(v as FuelInput['type'])}>
                                         <SelectTrigger>
                                             <SelectValue />
                                         </SelectTrigger>

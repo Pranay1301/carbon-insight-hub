@@ -23,11 +23,11 @@ const CarbonLanding = () => {
                         <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
                             Measure your organization's Scope 1, 2, and 3 emissions in compliance with the GHG Protocol Corporate Standard.
                         </p>
-                        <div className="flex justify-center gap-4">
-                            <Button size="lg" onClick={() => navigate("/carbon-emissions/profile")}>
+                        <div className="flex flex-col sm:flex-row justify-center gap-4">
+                            <Button size="lg" className="w-full sm:w-auto" onClick={() => navigate("/carbon-emissions/profile")}>
                                 Start Calculation <ArrowRight className="ml-2 w-4 h-4" />
                             </Button>
-                            <Button variant="outline" size="lg">
+                            <Button variant="outline" size="lg" className="w-full sm:w-auto">
                                 Import from ESG Data
                             </Button>
                         </div>

@@ -61,11 +61,20 @@ export type AssessmentStep =
 
 export interface OrganizationProfile {
   organizationName: string;
+  legalEntityName?: string;
   industrySector: IndustrySector;
   organizationSize: OrganizationSize;
   annualRevenue: number; // in USD or local currency
+  fiscalYearEnd?: string;
+  geographicRegion?: string;
+  numberOfFacilities?: number;
   numberOfEmployees: number;
   countriesOfOperation: string[];
+  publicPrivateStatus?: "public" | "private";
+  stockExchange?: string;
+  primaryContactName?: string;
+  primaryContactEmail?: string;
+  esgOfficerName?: string;
   // New fields
   selectedRegion?: Region;
   selectedPurposes?: DueDiligencePurpose[];
@@ -167,16 +176,16 @@ export interface ESGAssessmentData {
   quantitativeData: QuantitativeMetric[];
 
   // Legacy/Compatibility fields
-  completionStatus?: {
+  completionStatus: {
     profile: boolean;
     environmental: boolean;
     social: boolean;
     governance: boolean;
     [key: string]: boolean;
   };
-  environmental?: any;
-  social?: any;
-  governance?: any;
+  environmental?: Partial<EnvironmentalAssessment>;
+  social?: Partial<SocialAssessment>;
+  governance?: Partial<GovernanceAssessment>;
 }
 
 // --- Scoring & Results ---
@@ -193,7 +202,7 @@ export interface FrameworkScore {
 }
 
 export interface Recommendation {
-  id: string;
+  id?: string;
   priority: "critical" | "high" | "medium";
   category: string;
   issue: string;
@@ -205,4 +214,165 @@ export interface Recommendation {
   resources?: string[];
   scoreImprovement?: number;
   complexity?: "easy" | "medium" | "hard";
+}
+
+export interface EnvironmentalAssessment {
+  measurementLevel?: "all-three" | "scope-1-2" | "scope-1-only" | "not-measured";
+  scope1Emissions?: number;
+  scope2Emissions?: number;
+  scope3Emissions?: number;
+  scope3Coverage?: number;
+  hasReductionTargets?: boolean;
+  targetType?: "sbti" | "absolute" | "intensity" | "none";
+  targetPercentage?: number;
+  targetYear?: number;
+  currentProgress?: number;
+  scope3Categories?: string[];
+  totalEnergyConsumption?: number;
+  energyConsumptionTrend?: "decreasing" | "stable" | "increasing";
+  renewablePercentage?: number;
+  renewableSources?: string[];
+  energyManagementCertification?: "iso-50001" | "in-progress" | "planned" | "not-planned";
+  energyEfficiencyPrograms?: "comprehensive" | "limited" | "no";
+  energyEfficiencyTargets?: boolean;
+  targetEfficiencyImprovement?: number;
+  totalWaterWithdrawal?: number;
+  operationsInWaterStressed?: "yes" | "no";
+  waterRecyclingRate?: number;
+  treatmentBeforeDischarge?: boolean;
+  totalWasteGenerated?: number;
+  hazardousWaste?: number;
+  wasteDiversionRate?: number;
+  wasteDisposalMethods?: { landfill?: number; recycling?: number; composting?: number; incineration?: number };
+  zeroWasteGoal?: "yes-with-targets" | "under-development" | "no";
+  operationsNearProtectedAreas?: "yes" | "no";
+  biodiversityImpactAssessment?: boolean;
+  biodiversityManagementPlan?: boolean;
+  biodiversityConservationPrograms?: "active" | "limited" | "no";
+  habitatsProtectedRestored?: number;
+  iso14001Certified?: boolean;
+  environmentalViolations?: number;
+  environmentalPolicyPublic?: boolean;
+  regularEnvironmentalAudits?: boolean;
+}
+
+export interface SocialAssessment {
+  totalWorkforce?: number;
+  trir?: number;
+  ltir?: number;
+  recordableInjuries?: number;
+  totalHoursWorked?: number;
+  fatalities?: number;
+  iso45001Certified?: boolean;
+  hsManagementSystemCoverage?: number;
+  safetyTrainingHours?: number;
+  employeesWomen?: number;
+  seniorMgmtWomen?: number;
+  seniorMgmtMen?: number;
+  boardWomen?: number;
+  boardMen?: number;
+  womenInWorkforce?: number;
+  womenInManagement?: number;
+  womenInLeadership?: number;
+  womenOnBoard?: number;
+  formalDeiPolicy?: boolean;
+  deiTraining?: boolean;
+  diversityTargets?: "specific" | "aspirational" | "no";
+  payEquityAnalysis?: boolean;
+  genderPayGap?: number;
+  annualTurnoverRate?: number;
+  minimumWagePolicy?: "living-wage" | "above-minimum" | "legal-minimum" | "below-minimum";
+  collectiveBargainingCoverage?: number;
+  freedomOfAssociation?: boolean;
+  childForcedLaborIncidents?: number;
+  humanRightsPolicy?: boolean;
+  humanRightsDueDiligence?: boolean;
+  supplierAudits?: number;
+  supplierAuditsFrequency?: "regular" | "risk-based" | "occasional" | "none";
+  suppliersScreenedSocial?: number;
+  communityInvestment?: number;
+  customerSatisfactionScore?: number;
+  productSafetyIncidents?: number;
+  dataPrivacyFramework?: "iso-27001" | "gdpr" | "other" | "none";
+}
+
+export interface GovernanceAssessment {
+  totalBoardSize?: number;
+  independentDirectors?: number;
+  womenOnBoard?: number;
+  sustainabilityCommittee?: boolean;
+  riskCommittee?: boolean;
+  boardEvaluation?: boolean;
+  variableCompLinkedToEsg?: boolean;
+  esgLinkagePercentage?: number;
+  ceoPayRatio?: number;
+  executiveTurnover?: number;
+  ceoChairmanSeparated?: boolean;
+  codeOfConduct?: boolean;
+  antiCorruptionPolicy?: boolean;
+  whistleblowerMechanism?: boolean;
+  antiRetaliation?: boolean;
+  corruptionViolations?: number;
+  antiCompetitiveViolations?: number;
+  financialViolations?: number;
+  ermFramework?: "coso" | "iso-31000" | "proprietary" | "other";
+  esgRisksIntegrated?: boolean;
+  cybersecurityFramework?: "nist" | "iso-27001" | "soc2" | "none";
+  internalAudit?: boolean;
+  sustainabilityReport?: boolean;
+  thirdPartyAssurance?: boolean;
+  externalAudit?: boolean;
+  materialityAssessment?: boolean;
+  stakeholderInput?: boolean;
+  engagementProcessDocumented?: boolean;
+}
+
+export interface EnvironmentalScore {
+  total: number;
+  ghgEmissions: number;
+  energyRenewable: number;
+  waterManagement: number;
+  wasteManagement: number;
+  biodiversity: number;
+  compliance: number;
+}
+
+export interface SocialScore {
+  total: number;
+  healthSafety: number;
+  diversityEquityInclusion: number;
+  laborPractices: number;
+  humanRights: number;
+  supplyChain: number;
+  customerCommunity: number;
+}
+
+export interface GovernanceScore {
+  total: number;
+  boardStructure: number;
+  executiveComp: number;
+  ethicsCompliance: number;
+  riskControls: number;
+  transparencyDisclosure: number;
+}
+
+export interface ESGScores {
+  environmental: EnvironmentalScore;
+  social: SocialScore;
+  governance: GovernanceScore;
+  composite: number;
+  sectorWeights: { environmental: number; social: number; governance: number };
+  riskLevel: "low" | "medium" | "high" | "critical";
+  alignmentClassification: "fully-aligned" | "partially-aligned" | "developing" | "not-aligned" | "critical-gaps";
+}
+
+export interface IndustryBenchmark {
+  sector: IndustrySector;
+  averageE: number;
+  averageS: number;
+  averageG: number;
+  topQuartileE: number;
+  topQuartileS: number;
+  topQuartileG: number;
+  trirBenchmark: number;
 }

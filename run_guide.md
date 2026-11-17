@@ -15,7 +15,7 @@ Before you begin, ensure you have the following installed:
 Open your terminal and navigate to the project folder:
 
 ```bash
-cd "/Users/pranay/Documents/Work/Trace Resource/TR Calculator/carbon-insight-hub-main"
+cd "/path/to/greenledger"
 ```
 
 ### 2. Install Dependencies

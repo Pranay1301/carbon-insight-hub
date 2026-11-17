@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, TrendingDown, AlertTriangle, TreePine } from 'lucide-react';
+import { ArrowLeft, Car, Download, Flame, Plane, TrendingDown, AlertTriangle, TreePine } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const SectorDashboard = () => {
@@ -21,14 +21,14 @@ const SectorDashboard = () => {
 
     return (
         <div className="container mx-auto py-8 px-4">
-            <div className="flex justify-between items-center mb-8">
-                <div className="flex items-center gap-4">
-                    <Button variant="ghost" onClick={() => navigate('/carbon-footprint')} className="pl-0">
+            <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                    <Button variant="ghost" onClick={() => navigate('/carbon-footprint')} className="w-fit pl-0">
                         <ArrowLeft className="mr-2 h-4 w-4" /> Back to Hub
                     </Button>
-                    <h1 className="text-3xl font-bold">Comprehensive Carbon Footprint</h1>
+                    <h1 className="min-w-0 text-2xl sm:text-3xl font-bold leading-tight">Comprehensive Carbon Footprint</h1>
                 </div>
-                <Button variant="outline">
+                <Button variant="outline" className="w-full sm:w-auto">
                     <Download className="mr-2 h-4 w-4" /> Export Report
                 </Button>
             </div>
@@ -74,7 +74,7 @@ const SectorDashboard = () => {
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="bg-white p-4 rounded-lg border border-red-100 shadow-sm">
-                                <div className="font-bold text-red-800">🔥 Priority 1: Grid Electricity</div>
+                                <div className="font-bold text-red-800 flex items-center gap-2"><Flame className="h-4 w-4" /> Priority 1: Grid Electricity</div>
                                 <p className="text-sm text-red-600 mt-1">49% of total emissions</p>
                                 <div className="mt-2 text-xs text-slate-600">
                                     <strong>Action:</strong> Increase renewable procurement to 75%
@@ -84,7 +84,7 @@ const SectorDashboard = () => {
                             </div>
 
                             <div className="bg-white p-4 rounded-lg border border-red-100 shadow-sm">
-                                <div className="font-bold text-red-800">🔥 Priority 2: Industrial</div>
+                                <div className="font-bold text-red-800 flex items-center gap-2"><Flame className="h-4 w-4" /> Priority 2: Industrial</div>
                                 <p className="text-sm text-red-600 mt-1">26% of total emissions</p>
                                 <div className="mt-2 text-xs text-slate-600">
                                     <strong>Action:</strong> Increase recycled content by 30%
@@ -103,13 +103,13 @@ const SectorDashboard = () => {
                             <p className="text-sm text-emerald-800 mb-4">Your footprint is equivalent to:</p>
                             <ul className="space-y-2 text-sm text-emerald-700">
                                 <li className="flex items-center gap-2">
-                                    🚗 <strong>295,704</strong> miles driven
+                                    <Car className="h-4 w-4 shrink-0" /> <span><strong>295,704</strong> miles driven</span>
                                 </li>
                                 <li className="flex items-center gap-2">
-                                    ✈️ <strong>1,533</strong> round-trip flights (NYC-LHR)
+                                    <Plane className="h-4 w-4 shrink-0" /> <span><strong>1,533</strong> round-trip flights (NYC-LHR)</span>
                                 </li>
                                 <li className="flex items-center gap-2">
-                                    🌲 <strong>60,759</strong> tree seedlings grown for 10 years
+                                    <TreePine className="h-4 w-4 shrink-0" /> <span><strong>60,759</strong> tree seedlings grown for 10 years</span>
                                 </li>
                             </ul>
                         </CardContent>

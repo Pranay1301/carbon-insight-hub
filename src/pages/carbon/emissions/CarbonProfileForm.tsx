@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CarbonCompanyProfile } from "@/types/carbon";
+import { getErrorMessage } from "@/lib/errors";
 
 const CarbonProfileForm = () => {
     const navigate = useNavigate();
@@ -41,7 +42,7 @@ const CarbonProfileForm = () => {
 
                 if (orgs) {
                     setValue("name", orgs.name);
-                    setValue("industry", orgs.industry as any);
+                    setValue("industry", orgs.industry as CarbonCompanyProfile["industry"]);
                     setValue("employees", parseInt(orgs.size || "0")); // simplistic mapping
                     // Ideally we would have more fields in organizations table or a separate carbon_profile table
                 }
@@ -101,11 +102,11 @@ const CarbonProfileForm = () => {
             });
 
             navigate("/carbon-emissions/scope1");
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Error saving profile:", error);
             toast({
                 title: "Error",
-                description: error.message || "Failed to save profile.",
+                description: getErrorMessage(error, "Failed to save profile."),
                 variant: "destructive",
             });
         } finally {
@@ -136,7 +137,7 @@ const CarbonProfileForm = () => {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="grid gap-2">
                                         <Label>Industry</Label>
-                                        <Select onValueChange={(v) => setValue("industry", v as any)}>
+                                        <Select onValueChange={(v) => setValue("industry", v as CarbonCompanyProfile["industry"])}>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select industry" />
                                             </SelectTrigger>
@@ -158,7 +159,7 @@ const CarbonProfileForm = () => {
 
                                 <div className="grid gap-2">
                                     <Label>Reporting Boundary</Label>
-                                    <RadioGroup onValueChange={(v) => setValue("boundary", v as any)} defaultValue="operational-control">
+                                    <RadioGroup onValueChange={(v) => setValue("boundary", v as CarbonCompanyProfile["boundary"])} defaultValue="operational-control">
                                         <div className="flex items-center space-x-2">
                                             <RadioGroupItem value="operational-control" id="operational" />
                                             <Label htmlFor="operational">Operational Control</Label>
@@ -221,7 +222,7 @@ const CarbonProfileForm = () => {
                                     <div className="grid grid-cols-2 gap-4 pl-6 border-l-2 border-border">
                                         <div className="grid gap-2">
                                             <Label>Target Type</Label>
-                                            <Select onValueChange={(v) => setValue("targetType", v as any)}>
+                                            <Select onValueChange={(v) => setValue("targetType", v as NonNullable<CarbonCompanyProfile["targetType"]>)}>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Select type" />
                                                 </SelectTrigger>

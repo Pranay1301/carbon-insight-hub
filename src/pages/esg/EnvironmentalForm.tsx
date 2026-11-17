@@ -25,14 +25,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Leaf, Droplets, Zap, Recycle, ShieldAlert, Sprout } from "lucide-react";
-import { EnvironmentalAssessment } from "@/types/esg";
 import { saveAssessmentData, loadAssessmentData, setupAutoSave, saveSectionData } from "@/lib/esg/storage";
 // ...
-
-const onSubmit = (data: EnvironmentalAssessment) => {
-  saveSectionData("environmental", data, true);
-  navigate("/esg-assessment/social");
-};
 import { ProgressTracker } from "@/components/esg/ProgressTracker";
 import { SaveProgressButton } from "@/components/esg/SaveProgressButton";
 
@@ -77,6 +71,9 @@ const environmentalSchema = z.object({
   environmentalPolicyPublic: z.boolean().optional(),
 });
 
+type EnvironmentalFormValues = z.input<typeof environmentalSchema>;
+type EnvironmentalFormData = z.output<typeof environmentalSchema>;
+
 const EnvironmentalForm = () => {
   const navigate = useNavigate();
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -93,7 +90,7 @@ const EnvironmentalForm = () => {
     governance: false
   });
 
-  const form = useForm<EnvironmentalAssessment>({
+  const form = useForm<EnvironmentalFormValues, unknown, EnvironmentalFormData>({
     resolver: zodResolver(environmentalSchema),
     defaultValues: {
       measurementLevel: "not-measured",
@@ -117,17 +114,17 @@ const EnvironmentalForm = () => {
     const savedData = loadAssessmentData();
     if (savedData) {
       if (savedData.environmental) {
-        form.reset(savedData.environmental as EnvironmentalAssessment);
+        form.reset(savedData.environmental as EnvironmentalFormData);
       }
       setLastSaved(new Date(savedData.lastUpdated));
       setCompletionStatus(savedData.completionStatus);
     }
 
-    const unsubscribe = setupAutoSave(form.watch, "environmental");
+    const unsubscribe = setupAutoSave(() => saveSectionData("environmental", form.getValues()));
     return () => unsubscribe();
   }, [form]);
 
-  const onSubmit = (data: EnvironmentalAssessment) => {
+  const onSubmit = (data: EnvironmentalFormData) => {
     saveSectionData("environmental", data, true);
     navigate("/esg-assessment/social");
   };
@@ -142,7 +139,7 @@ const EnvironmentalForm = () => {
             <h1 className="text-3xl font-bold text-slate-900">Environmental Assessment</h1>
             <p className="text-slate-600 mt-2">Measure your environmental footprint and management practices.</p>
           </div>
-          <SaveProgressButton lastSaved={lastSaved} onSave={() => saveAssessmentData("environmental", form.getValues())} />
+          <SaveProgressButton lastSaved={lastSaved?.getTime() || 0} onSave={() => saveSectionData("environmental", form.getValues())} />
         </div>
 
         <Form {...form}>
@@ -191,7 +188,7 @@ const EnvironmentalForm = () => {
                         <FormItem>
                           <FormLabel>Scope 1 (tCO2e)</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <Input type="number" {...field} value={field.value as number} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -205,7 +202,7 @@ const EnvironmentalForm = () => {
                           <FormItem>
                             <FormLabel>Scope 2 (tCO2e)</FormLabel>
                             <FormControl>
-                              <Input type="number" {...field} />
+                              <Input type="number" {...field} value={field.value as number} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -220,7 +217,7 @@ const EnvironmentalForm = () => {
                           <FormItem>
                             <FormLabel>Scope 3 (tCO2e)</FormLabel>
                             <FormControl>
-                              <Input type="number" {...field} />
+                              <Input type="number" {...field} value={field.value as number} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -286,7 +283,7 @@ const EnvironmentalForm = () => {
                         <FormItem>
                           <FormLabel>Target Reduction (%)</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <Input type="number" {...field} value={field.value as number} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -315,7 +312,7 @@ const EnvironmentalForm = () => {
                       <FormItem>
                         <FormLabel>Total Energy Consumption (MWh)</FormLabel>
                         <FormControl>
-                          <Input type="number" {...field} />
+                          <Input type="number" {...field} value={field.value as number} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -352,7 +349,7 @@ const EnvironmentalForm = () => {
                     <FormItem>
                       <FormLabel>Renewable Energy (%)</FormLabel>
                       <FormControl>
-                        <Input type="number" min="0" max="100" {...field} />
+                        <Input type="number" min="0" max="100" {...field} value={field.value as number} />
                       </FormControl>
                       <FormDescription>Percentage of total energy from renewable sources.</FormDescription>
                       <FormMessage />
@@ -404,7 +401,7 @@ const EnvironmentalForm = () => {
                       <FormItem>
                         <FormLabel>Total Water Withdrawal (m³)</FormLabel>
                         <FormControl>
-                          <Input type="number" {...field} />
+                          <Input type="number" {...field} value={field.value as number} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -443,7 +440,7 @@ const EnvironmentalForm = () => {
                       <FormItem>
                         <FormLabel>Total Waste Generated (tonnes)</FormLabel>
                         <FormControl>
-                          <Input type="number" {...field} />
+                          <Input type="number" {...field} value={field.value as number} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -456,7 +453,7 @@ const EnvironmentalForm = () => {
                       <FormItem>
                         <FormLabel>Waste Diversion Rate (%)</FormLabel>
                         <FormControl>
-                          <Input type="number" min="0" max="100" {...field} />
+                          <Input type="number" min="0" max="100" {...field} value={field.value as number} />
                         </FormControl>
                         <FormDescription>Recycled, composted, or recovered.</FormDescription>
                         <FormMessage />
@@ -570,7 +567,7 @@ const EnvironmentalForm = () => {
                     <FormItem>
                       <FormLabel>Environmental Violations (Last 12 months)</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" {...field} value={field.value as number} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

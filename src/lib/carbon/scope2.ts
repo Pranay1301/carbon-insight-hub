@@ -54,8 +54,8 @@ export const calculateMarketBasedElectricity = (
         // Weighted average location factor calculation
         let totalLocationEmissions = 0;
         sources.forEach(source => {
-            let factor = source.customFactor || ELECTRICITY_GRID_FACTORS[source.region as keyof typeof ELECTRICITY_GRID_FACTORS] || 0;
-            let kwh = source.unit === "mwh" ? source.consumption * 1000 : source.consumption;
+            const factor = source.customFactor || ELECTRICITY_GRID_FACTORS[source.region as keyof typeof ELECTRICITY_GRID_FACTORS] || 0;
+            const kwh = source.unit === "mwh" ? source.consumption * 1000 : source.consumption;
             totalLocationEmissions += (kwh * factor) / 1000;
         });
 

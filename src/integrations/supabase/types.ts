@@ -7,6 +7,9 @@ export type Json =
   | Json[]
 
 export type Database = {
+  __InternalSupabase: {
+    PostgrestVersion: "12"
+  }
   public: {
     Tables: {
       profiles: {
@@ -34,6 +37,7 @@ export type Database = {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       organizations: {
         Row: {
@@ -69,6 +73,7 @@ export type Database = {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       esg_assessments: {
         Row: {
@@ -113,6 +118,7 @@ export type Database = {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       carbon_emissions: {
         Row: {
@@ -163,6 +169,7 @@ export type Database = {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       carbon_footprints: {
         Row: {
@@ -201,6 +208,7 @@ export type Database = {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
     }
     Views: {

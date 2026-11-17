@@ -2,17 +2,37 @@ import { CalculationResult } from "../../types/carbon-sectors";
 
 const HISTORY_KEY = "carbon_footprint_history";
 
+export interface FootprintHistoryInputs {
+    subType?: "electricity" | "fuel" | "vehicle" | "flight" | "freight";
+    usage?: number;
+    unit?: string;
+    gridRegion?: string;
+    type?: string;
+    amount?: number;
+    fuel?: string;
+    size?: string;
+    distance?: number;
+    origin?: string;
+    destination?: string;
+    class?: string;
+    passengers?: number;
+    roundTrip?: boolean;
+    rf?: boolean;
+    mode?: string;
+    weight?: number;
+}
+
 export interface FootprintHistoryItem {
     id: string;
     date: string;
     calculatorType: "energy" | "transport" | "sector";
-    inputs: any;
+    inputs: FootprintHistoryInputs;
     result: CalculationResult;
 }
 
 export function saveToHistory(
     calculatorType: "energy" | "transport" | "sector",
-    inputs: any,
+    inputs: FootprintHistoryInputs,
     result: CalculationResult
 ): void {
     const history = getHistory();

@@ -37,7 +37,7 @@ const About = () => {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-6">
               <Leaf className="w-8 h-8 text-primary" />
             </div>
-            <h1 className="text-4xl font-bold mb-4 text-foreground">About Trace Resource</h1>
+            <h1 className="text-4xl font-bold mb-4 text-foreground">About GreenLedger</h1>
             <p className="text-lg text-muted-foreground">
               Empowering organizations with transparent, accessible sustainability intelligence.
             </p>
@@ -47,10 +47,10 @@ const About = () => {
             <div className="bg-card border border-border rounded-lg p-8 mb-8">
               <h2 className="text-2xl font-semibold mb-4 text-foreground">Our Mission</h2>
               <p className="text-muted-foreground mb-4">
-                Trace Resource exists to democratize sustainability measurement and management. We believe every organization—from startups to enterprises—should have access to professional-grade tools for understanding and reducing their environmental impact.
+                GreenLedger is a sustainability product concept focused on making carbon accounting more credible and actionable. It connects activity data with evidence, reviewed factors, transparent methods, and reduction decisions.
               </p>
               <p className="text-muted-foreground">
-                Our platform provides three expert tools that follow international standards (GHG Protocol, GRI, SASB, ISO) while maintaining complete transparency about methodologies, calculations, and assumptions.
+                Its calculators and workflows are designed around GHG Protocol concepts and can be mapped to disclosure frameworks such as BRSR and IFRS. They are not a substitute for professional assurance, legal advice, or source-dataset validation.
               </p>
             </div>
 
@@ -74,7 +74,7 @@ const About = () => {
               <ul className="space-y-3 text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <Leaf className="w-5 h-5 text-success mt-0.5 flex-shrink-0" />
-                  <span><strong>Client-side calculations:</strong> All processing happens in your browser for maximum privacy and minimal server load</span>
+                  <span><strong>Demo-safe calculations:</strong> This hosted demonstration keeps sample data in the browser. A production rollout should use organization-scoped storage with row-level security.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Leaf className="w-5 h-5 text-success mt-0.5 flex-shrink-0" />
@@ -82,7 +82,7 @@ const About = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <Leaf className="w-5 h-5 text-success mt-0.5 flex-shrink-0" />
-                  <span><strong>Green hosting:</strong> Powered by renewable energy infrastructure</span>
+                  <span><strong>Evidence before reporting:</strong> Reported figures should retain the source document, reviewer decision, factor ID, and methodology version.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Leaf className="w-5 h-5 text-success mt-0.5 flex-shrink-0" />

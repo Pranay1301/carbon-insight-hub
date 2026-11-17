@@ -24,7 +24,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Save, Building2, Globe, Calendar, Users, Mail } from "lucide-react";
-import { OrganizationProfile } from "@/types/esg";
 import { saveAssessmentData, loadAssessmentData, setupAutoSave, saveSectionData } from "@/lib/esg/storage";
 // ... (imports remain same, just updating the storage import line if needed, but replace_file_content replaces chunks)
 
@@ -63,6 +62,9 @@ const profileSchema = z.object({
   assessmentPeriodTo: z.string().min(1, "End date is required"),
 });
 
+type ProfileFormValues = z.input<typeof profileSchema>;
+type ProfileFormData = z.output<typeof profileSchema>;
+
 const ProfileForm = () => {
   const navigate = useNavigate();
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -79,7 +81,7 @@ const ProfileForm = () => {
     governance: false
   });
 
-  const form = useForm<OrganizationProfile>({
+  const form = useForm<ProfileFormValues, unknown, ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       organizationName: "",
@@ -114,17 +116,17 @@ const ProfileForm = () => {
           countriesOfOperation: savedData.profile.countriesOfOperation || [],
           reportingFrameworks: savedData.profile.reportingFrameworks || [],
         };
-        form.reset(profileData as OrganizationProfile);
+        form.reset(profileData as ProfileFormData);
       }
       setLastSaved(new Date(savedData.lastUpdated));
       setCompletionStatus(savedData.completionStatus);
     }
 
-    const unsubscribe = setupAutoSave(form.watch, "profile");
+    const unsubscribe = setupAutoSave(() => saveSectionData("profile", form.getValues()));
     return () => unsubscribe();
   }, [form]);
 
-  const onSubmit = (data: OrganizationProfile) => {
+  const onSubmit = (data: ProfileFormData) => {
     saveSectionData("profile", data, true);
     navigate("/esg-assessment/environmental");
   };
@@ -149,7 +151,7 @@ const ProfileForm = () => {
             <h1 className="text-3xl font-bold text-slate-900">Organization Profile</h1>
             <p className="text-slate-600 mt-2">Tell us about your organization to tailor the assessment.</p>
           </div>
-          <SaveProgressButton lastSaved={lastSaved} onSave={() => saveAssessmentData("profile", form.getValues())} />
+          <SaveProgressButton lastSaved={lastSaved?.getTime() || 0} onSave={() => saveSectionData("profile", form.getValues())} />
         </div>
 
         <Form {...form}>
@@ -259,7 +261,7 @@ const ProfileForm = () => {
                     <FormItem>
                       <FormLabel>Annual Revenue (INR) *</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" {...field} value={field.value as number} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -273,7 +275,7 @@ const ProfileForm = () => {
                     <FormItem>
                       <FormLabel>Number of Employees *</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" {...field} value={field.value as number} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -376,7 +378,7 @@ const ProfileForm = () => {
                     <FormItem>
                       <FormLabel>Number of Facilities/Sites</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" {...field} value={field.value as number} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

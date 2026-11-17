@@ -17,6 +17,8 @@ import { Plus, Trash2, Info } from "lucide-react";
 import { Scope1Data } from "@/types/carbon";
 import { STATIONARY_FACTORS, MOBILE_DISTANCE_FACTORS, MOBILE_FUEL_FACTORS, PROCESS_FACTORS, FUGITIVE_GWP } from "@/lib/carbon/factors";
 import { calculateScope1 } from "@/lib/carbon/scope1";
+import { validateScope1Inputs } from "@/lib/carbon/validation";
+import type { Json } from "@/integrations/supabase/types";
 
 const Scope1Form = () => {
     const navigate = useNavigate();
@@ -63,6 +65,18 @@ const Scope1Form = () => {
     const onSubmit = async (data: Scope1Data) => {
         setLoading(true);
         try {
+            const inputIssues = validateScope1Inputs(data);
+            const blockingIssues = inputIssues.filter((issue) => issue.severity === "error");
+            if (blockingIssues.length > 0) {
+                toast({
+                    title: "Factor validation required",
+                    description: blockingIssues[0].message,
+                    variant: "destructive",
+                });
+                setLoading(false);
+                return;
+            }
+
             const { data: { user } } = await supabase.auth.getUser();
 
             if (!user) {
@@ -93,6 +107,8 @@ const Scope1Form = () => {
                 throw new Error("Organization not found. Please complete the profile setup first.");
             }
 
+            const scope1Payload = JSON.parse(JSON.stringify(data)) as Json;
+
             // Upsert emission record
             const { error } = await supabase
                 .from('carbon_emissions')
@@ -101,7 +117,7 @@ const Scope1Form = () => {
                     user_id: user.id,
                     status: 'draft',
                     scope1_total: results.total,
-                    scope1_data: data as Record<string, unknown>, // Store the raw input data
+                    scope1_data: scope1Payload, // Store the raw input data
                     // We should also update the total_emissions if we had scope 2/3 data, 
                     // but for now we'll just update scope 1
                 }, { onConflict: 'organization_id, reporting_year' }); // This constraint might not exist, so we rely on RLS or logic
@@ -124,7 +140,7 @@ const Scope1Form = () => {
                     .from('carbon_emissions')
                     .update({
                         scope1_total: results.total,
-                        scope1_data: data as Record<string, unknown>
+                        scope1_data: scope1Payload
                     })
                     .eq('id', existingRecord.id);
             } else {
@@ -136,7 +152,7 @@ const Scope1Form = () => {
                         user_id: user.id,
                         status: 'draft',
                         scope1_total: results.total,
-                        scope1_data: data as Record<string, unknown>,
+                        scope1_data: scope1Payload,
                         reporting_year: new Date().getFullYear()
                     });
             }

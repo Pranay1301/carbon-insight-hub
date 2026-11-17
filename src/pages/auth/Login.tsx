@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { getErrorMessage } from "@/lib/errors";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -33,10 +34,10 @@ const Login = () => {
                 description: "You have successfully logged in.",
             });
             navigate("/");
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast({
                 title: "Error",
-                description: error.message,
+                description: getErrorMessage(error, "Unable to log in. Please check your credentials."),
                 variant: "destructive",
             });
         } finally {

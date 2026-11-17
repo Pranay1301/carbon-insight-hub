@@ -10,7 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Truck, Plane, Ship, ArrowLeft, History, Save, Trash2, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { calculateVehicle, calculateFlight, calculateFreight } from '../../../lib/carbon/sectors/transport';
-import { CalculationResult } from '../../../types/carbon-sectors';
+import { CalculationResult, FlightInput, FreightInput, VehicleInput } from '../../../types/carbon-sectors';
 import {
     saveToHistory,
     getHistoryByType,
@@ -36,31 +36,30 @@ const TransportCalculator = () => {
     const [historyItems, setHistoryItems] = useState<FootprintHistoryItem[]>([]);
 
     // Vehicle State
-    const [vehicleType, setVehicleType] = useState<string>('car');
-    const [vehicleFuel, setVehicleFuel] = useState<string>('gasoline');
-    const [vehicleSize, setVehicleSize] = useState<string>('medium');
+    const [vehicleType, setVehicleType] = useState<VehicleInput['type']>('car');
+    const [vehicleFuel, setVehicleFuel] = useState<VehicleInput['fuel']>('gasoline');
+    const [vehicleSize, setVehicleSize] = useState<NonNullable<VehicleInput['size']>>('medium');
     const [vehicleDistance, setVehicleDistance] = useState<number>(0);
-    const [vehicleUnit, setVehicleUnit] = useState<string>('km');
+    const [vehicleUnit, setVehicleUnit] = useState<VehicleInput['unit']>('km');
     const [vehicleResult, setVehicleResult] = useState<CalculationResult | null>(null);
 
     // Flight State
     const [flightOrigin, setFlightOrigin] = useState('');
     const [flightDest, setFlightDest] = useState('');
-    const [flightClass, setFlightClass] = useState<string>('economy');
+    const [flightClass, setFlightClass] = useState<FlightInput['class']>('economy');
     const [flightPax, setFlightPax] = useState<number>(1);
     const [flightRoundTrip, setFlightRoundTrip] = useState<boolean>(true);
     const [flightRF, setFlightRF] = useState<boolean>(true);
     const [flightResult, setFlightResult] = useState<CalculationResult | null>(null);
 
     // Freight State
-    const [freightMode, setFreightMode] = useState<string>('road');
+    const [freightMode, setFreightMode] = useState<FreightInput['mode']>('road');
     const [freightWeight, setFreightWeight] = useState<number>(0);
     const [freightDist, setFreightDist] = useState<number>(0);
     const [freightResult, setFreightResult] = useState<CalculationResult | null>(null);
 
     const handleVehicleCalculate = () => {
         const result = calculateVehicle({
-            // @ts-ignore
             type: vehicleType,
             fuel: vehicleFuel,
             size: vehicleSize,
@@ -75,7 +74,6 @@ const TransportCalculator = () => {
             origin: flightOrigin,
             destination: flightDest,
             passengers: flightPax,
-            // @ts-ignore
             class: flightClass,
             roundTrip: flightRoundTrip,
             includeRF: flightRF
@@ -85,7 +83,6 @@ const TransportCalculator = () => {
 
     const handleFreightCalculate = () => {
         const result = calculateFreight({
-            // @ts-ignore
             mode: freightMode,
             weight: freightWeight,
             weightUnit: 'tonnes',
@@ -121,26 +118,26 @@ const TransportCalculator = () => {
     const handleLoadHistoryItem = (item: FootprintHistoryItem) => {
         if (item.inputs.subType === 'vehicle') {
             setActiveTab('vehicles');
-            setVehicleType(item.inputs.type);
-            setVehicleFuel(item.inputs.fuel);
-            setVehicleSize(item.inputs.size);
-            setVehicleDistance(item.inputs.distance);
-            setVehicleUnit(item.inputs.unit);
+            setVehicleType(item.inputs.type as VehicleInput['type']);
+            setVehicleFuel(item.inputs.fuel as VehicleInput['fuel']);
+            setVehicleSize(item.inputs.size as NonNullable<VehicleInput['size']>);
+            setVehicleDistance(item.inputs.distance ?? 0);
+            setVehicleUnit(item.inputs.unit === 'miles' ? 'miles' : 'km');
             setVehicleResult(item.result);
         } else if (item.inputs.subType === 'flight') {
             setActiveTab('flights');
             setFlightOrigin(item.inputs.origin);
             setFlightDest(item.inputs.destination);
-            setFlightClass(item.inputs.class);
-            setFlightPax(item.inputs.passengers);
-            setFlightRoundTrip(item.inputs.roundTrip);
-            setFlightRF(item.inputs.rf);
+            setFlightClass(item.inputs.class as FlightInput['class']);
+            setFlightPax(item.inputs.passengers ?? 1);
+            setFlightRoundTrip(Boolean(item.inputs.roundTrip));
+            setFlightRF(Boolean(item.inputs.rf));
             setFlightResult(item.result);
         } else if (item.inputs.subType === 'freight') {
             setActiveTab('freight');
-            setFreightMode(item.inputs.mode);
-            setFreightWeight(item.inputs.weight);
-            setFreightDist(item.inputs.distance);
+            setFreightMode(item.inputs.mode as FreightInput['mode']);
+            setFreightWeight(item.inputs.weight ?? 0);
+            setFreightDist(item.inputs.distance ?? 0);
             setFreightResult(item.result);
         }
         setHistoryOpen(false);
@@ -265,7 +262,7 @@ const TransportCalculator = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <Label>Vehicle Type</Label>
-                                    <Select value={vehicleType} onValueChange={setVehicleType}>
+                                    <Select value={vehicleType} onValueChange={(v) => setVehicleType(v as VehicleInput['type'])}>
                                         <SelectTrigger><SelectValue /></SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="car">Passenger Car</SelectItem>
@@ -277,7 +274,7 @@ const TransportCalculator = () => {
 
                                 <div className="space-y-2">
                                     <Label>Fuel / Powertrain</Label>
-                                    <Select value={vehicleFuel} onValueChange={setVehicleFuel}>
+                                    <Select value={vehicleFuel} onValueChange={(v) => setVehicleFuel(v as VehicleInput['fuel'])}>
                                         <SelectTrigger><SelectValue /></SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="gasoline">Gasoline (Petrol)</SelectItem>
@@ -290,7 +287,7 @@ const TransportCalculator = () => {
 
                                 <div className="space-y-2">
                                     <Label>Size Class</Label>
-                                    <Select value={vehicleSize} onValueChange={setVehicleSize}>
+                                    <Select value={vehicleSize} onValueChange={(v) => setVehicleSize(v as NonNullable<VehicleInput['size']>)}>
                                         <SelectTrigger><SelectValue /></SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="small">Small</SelectItem>
@@ -308,7 +305,7 @@ const TransportCalculator = () => {
                                             value={vehicleDistance}
                                             onChange={(e) => setVehicleDistance(Number(e.target.value))}
                                         />
-                                        <Select value={vehicleUnit} onValueChange={setVehicleUnit}>
+                                        <Select value={vehicleUnit} onValueChange={(v) => setVehicleUnit(v as VehicleInput['unit'])}>
                                             <SelectTrigger className="w-[100px]"><SelectValue /></SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="km">km</SelectItem>
@@ -344,7 +341,7 @@ const TransportCalculator = () => {
 
                                 <div className="space-y-2">
                                     <Label>Class</Label>
-                                    <Select value={flightClass} onValueChange={setFlightClass}>
+                                    <Select value={flightClass} onValueChange={(v) => setFlightClass(v as FlightInput['class'])}>
                                         <SelectTrigger><SelectValue /></SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="economy">Economy</SelectItem>
@@ -388,7 +385,7 @@ const TransportCalculator = () => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="space-y-2">
                                     <Label>Mode</Label>
-                                    <Select value={freightMode} onValueChange={setFreightMode}>
+                                    <Select value={freightMode} onValueChange={(v) => setFreightMode(v as FreightInput['mode'])}>
                                         <SelectTrigger><SelectValue /></SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="road">Road (Truck)</SelectItem>

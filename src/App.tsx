@@ -53,6 +53,7 @@ import UserDashboard from "./pages/auth/UserDashboard";
 import About from "./pages/About";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
+import ClimateWorkspace from "./pages/ClimateWorkspace";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +65,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/workspace" element={<ClimateWorkspace />} />
 
           {/* Auth Routes */}
           <Route path="/auth/login" element={<Login />} />

@@ -2,8 +2,11 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+// The public demo remains browsable without Supabase configuration. Authenticated
+// persistence is only enabled after a real project URL and publishable key are
+// provided through deployment environment variables.
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://greenledger-demo.invalid';
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || 'demo-public-key-not-configured';
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";

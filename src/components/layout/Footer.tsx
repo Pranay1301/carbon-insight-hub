@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Leaf, Mail, Github, Linkedin, Twitter } from "lucide-react";
+import { Leaf, Github } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -13,14 +13,14 @@ const Footer = () => {
               <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
                 <Leaf className="w-6 h-6 text-primary-foreground" />
               </div>
-              <span className="font-bold text-lg">Trace Resource</span>
+              <span className="font-bold text-lg">GreenLedger</span>
             </Link>
             <p className="text-sm text-muted-foreground mb-4">
-              Your sustainability intelligence platform for ESG assessment, emissions tracking, and carbon footprint calculation.
+              Evidence-first carbon accounting and sustainability planning for growing teams.
             </p>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Leaf className="w-4 h-4 text-success" />
-              <span>Powered by green hosting</span>
+              <span>Designed for lightweight static hosting</span>
             </div>
           </div>
 
@@ -29,7 +29,7 @@ const Footer = () => {
             <h3 className="font-semibold mb-4 text-foreground">Tools</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/esg" className="text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/esg-assessment" className="text-muted-foreground hover:text-primary transition-colors">
                   ESG Assessment
                 </Link>
               </li>
@@ -73,34 +73,27 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Project */}
           <div>
-            <h3 className="font-semibold mb-4 text-foreground">Connect</h3>
-            <ul className="space-y-2 text-sm mb-4">
-              <li>
-                <a href="mailto:info@traceresource.com" className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  info@traceresource.com
-                </a>
-              </li>
-            </ul>
-            <div className="flex items-center gap-3">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                <Github className="w-5 h-5" />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-            </div>
+            <h3 className="font-semibold mb-4 text-foreground">Project</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Review the source, methodology, and current implementation on GitHub.
+            </p>
+            <a
+              href="https://github.com/Pranay1301/carbon-insight-hub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Github className="w-4 h-4" />
+              View repository
+            </a>
           </div>
         </div>
 
         <div className="mt-8 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <p>© {new Date().getFullYear()} Trace Resource. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} GreenLedger. Demo product concept.</p>
             <div className="flex gap-6">
               <Link to="/privacy" className="hover:text-primary transition-colors">
                 Privacy Policy

@@ -63,7 +63,7 @@ const MaterialityAssessment = () => {
 
     // Grouping for UI
     const grouped = localTopics.reduce((acc, topic) => {
-        const cat = (topic as any).category || 'Other';
+        const cat = topic.category || 'Other';
         if (!acc[cat]) acc[cat] = [];
         acc[cat].push(topic);
         return acc;

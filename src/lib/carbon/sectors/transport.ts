@@ -17,8 +17,7 @@ export const calculateVehicle = (input: VehicleInput): CalculationResult => {
         factor = TRANSPORT_FACTORS.passenger_car.hybrid;
         factorName = 'Hybrid Vehicle';
     } else if (input.type === 'car') {
-        const fuelDict = input.fuel === 'diesel' ? TRANSPORT_FACTORS.passenger_car.diesel : TRANSPORT_FACTORS.passenger_car.gasoline;
-        // @ts-ignore - simplified access
+        const fuelDict: Record<NonNullable<VehicleInput['size']> | 'avg', number> = input.fuel === 'diesel' ? TRANSPORT_FACTORS.passenger_car.diesel : TRANSPORT_FACTORS.passenger_car.gasoline;
         factor = fuelDict[input.size || 'avg'] || fuelDict.avg;
         factorName = `${input.fuel} Car (${input.size || 'Avg'})`;
     } else if (input.type === 'motorcycle') {
@@ -94,7 +93,7 @@ export const calculateFlight = (input: FlightInput): CalculationResult => {
     });
 
     // 1. Determine Haul
-    let haul = 'short';
+    let haul: keyof typeof TRANSPORT_FACTORS.flight = 'short';
     if (distanceKm >= 3700) haul = 'long';
     else if (distanceKm >= 463) haul = 'medium';
 
@@ -106,10 +105,9 @@ export const calculateFlight = (input: FlightInput): CalculationResult => {
     });
 
     // 2. Select Factor
-    // @ts-ignore
-    const haulFactors = TRANSPORT_FACTORS.flight[haul];
-    // @ts-ignore
-    const baseFactor = haulFactors[input.class] || haulFactors.economy;
+    const haulFactors: Partial<Record<FlightInput['class'] | 'premium', number>> = TRANSPORT_FACTORS.flight[haul];
+    const classFactorKey = input.class === 'premium_economy' ? 'premium' : input.class;
+    const baseFactor = haulFactors[classFactorKey] || haulFactors.economy || 0;
 
     breakdown.push({
         step: 'Base Emission Factor',

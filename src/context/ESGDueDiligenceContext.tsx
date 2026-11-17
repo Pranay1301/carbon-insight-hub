@@ -10,6 +10,7 @@ export interface MaterialTopic {
     name: string;
     isMaterial: boolean;
     rank?: number; // 1-5 or simple ranking
+    category?: string;
 }
 
 export interface PolicyDocument {
@@ -30,12 +31,12 @@ export interface ESGDueDiligenceState {
     // Phase 2: Assessments
     materialTopics: MaterialTopic[];
     policies: PolicyDocument[];
-    risksAndOpportunities: any[]; // Define properly later
+    risksAndOpportunities: unknown[]; // Define properly later
 
     // Phase 3: Data
-    processAnswers: Record<string, any>;
-    stakeholderEngagement: any[];
-    dataPoints: any[]; // The big data table
+    processAnswers: Record<string, unknown>;
+    stakeholderEngagement: unknown[];
+    dataPoints: unknown[]; // The big data table
 
     // Phase 4: Analysis
     scores: Record<string, number>;

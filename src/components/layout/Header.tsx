@@ -9,7 +9,8 @@ const Header = () => {
 
   const navItems = [
     { label: "Home", path: "/" },
-    { label: "ESG Assessment", path: "/esg" },
+    { label: "Workspace", path: "/workspace" },
+    { label: "ESG Assessment", path: "/esg-assessment" },
     { label: "Emissions Calculator", path: "/carbon-emissions" },
     { label: "Footprint Calculator", path: "/carbon-footprint" },
     { label: "About", path: "/about" },
@@ -27,11 +28,11 @@ const Header = () => {
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <Leaf className="w-6 h-6 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg text-foreground">Trace Resource</span>
+            <span className="font-bold text-lg text-foreground">GreenLedger</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -50,7 +51,7 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -64,7 +65,7 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-border">
+          <nav className="lg:hidden py-4 border-t border-border">
             {navItems.map((item) => (
               <Link
                 key={item.path}

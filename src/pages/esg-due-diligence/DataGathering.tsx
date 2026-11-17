@@ -86,7 +86,7 @@ const DataGathering = () => {
                                         <TableCell>
                                             <Select
                                                 value={row.verified}
-                                                onValueChange={val => updateRow(row.id, 'verified', val as any)}
+                                                onValueChange={val => updateRow(row.id, 'verified', val as MetricRow['verified'])}
                                             >
                                                 <SelectTrigger className="h-8">
                                                     <SelectValue />

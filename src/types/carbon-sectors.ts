@@ -87,7 +87,7 @@ export interface TransportSectorInput {
 
 export interface SectorCalculationRequest {
     sectorId: string;
-    data: any; // Specific input type based on sector
+    data: unknown; // Specific input type based on sector
 }
 
 export interface SectorCalculationResponse {

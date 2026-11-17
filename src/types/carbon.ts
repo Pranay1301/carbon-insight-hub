@@ -123,6 +123,13 @@ export interface Scope2Data {
 
 // --- Scope 3 Types ---
 
+export interface Scope3InputData {
+    spend?: number;
+    distance?: number;
+    quantity?: number;
+    [key: string]: string | number | boolean | undefined;
+}
+
 export interface Scope3CategoryData {
     id: string;
     category: number; // 1-15
@@ -130,7 +137,7 @@ export interface Scope3CategoryData {
     method: "spend" | "distance" | "quantity" | "hybrid";
     emissions: number; // tCO2e (calculated or manual)
     description?: string;
-    inputData?: any; // Flexible storage for category-specific inputs
+    inputData?: Scope3InputData; // Flexible storage for category-specific inputs
 }
 
 export interface Scope3Data {

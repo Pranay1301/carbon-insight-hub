@@ -32,7 +32,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Badge, type BadgeProps } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -60,7 +60,7 @@ const getAlignmentColor = (alignment: string) => {
   }
 };
 
-const getPriorityColor = (priority: string) => {
+const getPriorityColor = (priority: string): BadgeProps["variant"] => {
   switch (priority) {
     case "critical": return "destructive";
     case "high": return "destructive";
@@ -358,7 +358,7 @@ const ResultsDashboard = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       {/* Fixed Badge usage with correct helper */}
-                      <Badge variant={getPriorityColor(rec.priority) as any}>
+                      <Badge variant={getPriorityColor(rec.priority)}>
                         {rec.priority.toUpperCase()}
                       </Badge>
                       <Badge variant="outline">{rec.category}</Badge>

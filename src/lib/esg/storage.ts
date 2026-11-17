@@ -16,13 +16,13 @@ export function saveAssessmentData(data: ESGAssessmentData): void {
   }
 }
 
-export function saveSectionData(section: keyof ESGAssessmentData, data: any, markComplete: boolean = false): void {
+export function saveSectionData(section: keyof ESGAssessmentData, data: unknown, markComplete: boolean = false): void {
   const currentData = loadAssessmentData() || createNewAssessment();
   const updatedData = {
     ...currentData,
     [section]: data,
     lastUpdated: Date.now()
-  };
+  } as ESGAssessmentData;
 
   if (markComplete) {
     updatedData.completionStatus = {
@@ -117,7 +117,8 @@ export function setupAutoSave(callback: () => void): () => void {
   const interval = setInterval(callback, AUTO_SAVE_INTERVAL);
   return () => clearInterval(interval);
 }
-export function formatLastSaved(): string {
+export function formatLastSaved(timestamp?: number): string {
+  if (timestamp) return new Date(timestamp).toLocaleString();
   const data = loadAssessmentData();
   if (!data || !data.lastUpdated) return "Never";
   return new Date(data.lastUpdated).toLocaleString();

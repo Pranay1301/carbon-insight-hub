@@ -118,7 +118,7 @@ export const calculateFuel = (input: FuelInput): CalculationResult => {
     factorKey = factorKey.toLowerCase().replace(/\s+/g, '_');
 
     // Attempt to find exact match first
-    let factorObj = FUEL_FACTORS[factorKey];
+    const factorObj = FUEL_FACTORS[factorKey];
 
     // Fallback logic for units if exact key not found (simplified for now)
     if (!factorObj) {

@@ -25,7 +25,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Users, HeartHandshake, Scale, Globe2, ShieldCheck, HardHat } from "lucide-react";
-import { SocialAssessment } from "@/types/esg";
 import { saveAssessmentData, loadAssessmentData, setupAutoSave, saveSectionData } from "@/lib/esg/storage";
 import { ProgressTracker } from "@/components/esg/ProgressTracker";
 import { SaveProgressButton } from "@/components/esg/SaveProgressButton";
@@ -69,6 +68,8 @@ const socialSchemaUpdated = z.object({
   customerSatisfactionScore: z.coerce.number().min(0).max(100).optional(),
 });
 
+type SocialFormData = z.infer<typeof socialSchemaUpdated>;
+
 const SocialForm = () => {
   const navigate = useNavigate();
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -106,7 +107,7 @@ const SocialForm = () => {
     const savedData = loadAssessmentData();
     if (savedData) {
       if (savedData.social) {
-        form.reset(savedData.social as any);
+        form.reset(savedData.social as SocialFormData);
       }
       setLastSaved(new Date(savedData.lastUpdated));
       setCompletionStatus(savedData.completionStatus);
@@ -116,7 +117,7 @@ const SocialForm = () => {
     return () => unsubscribe();
   }, [form]);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: SocialFormData) => {
     saveSectionData("social", data, true);
     navigate("/esg-assessment/governance");
   };

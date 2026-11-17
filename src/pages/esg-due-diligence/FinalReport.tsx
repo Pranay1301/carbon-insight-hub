@@ -96,7 +96,7 @@ const FinalReport = () => {
 
                     {/* Footer */}
                     <div className="text-center text-xs text-muted-foreground">
-                        <p>Trace Resource | Carbon & ESG Insight Hub</p>
+                        <p>GreenLedger | Carbon & ESG Workspace</p>
                         <p>This report assumes validity of user-supplied data.</p>
                     </div>
                 </div>

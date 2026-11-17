@@ -15,7 +15,7 @@ const PolicyInput = () => {
 
     // Local state for new policy form
     const [newName, setNewName] = useState('');
-    const [newCategory, setNewCategory] = useState<string>('');
+    const [newCategory, setNewCategory] = useState<PolicyDocument['category'] | ''>('');
     const [newContent, setNewContent] = useState('');
 
     const handleAdd = () => {
@@ -24,7 +24,7 @@ const PolicyInput = () => {
         const policy: PolicyDocument = {
             id: crypto.randomUUID(),
             name: newName,
-            category: newCategory as any,
+            category: newCategory,
             textParams: newContent,
             status: 'Uploaded'
         };
@@ -61,7 +61,7 @@ const PolicyInput = () => {
 
                         <div className="space-y-2">
                             <Label htmlFor="p-cat">Category</Label>
-                            <Select value={newCategory} onValueChange={setNewCategory}>
+                            <Select value={newCategory} onValueChange={(value) => setNewCategory(value as PolicyDocument['category'])}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select Category" />
                                 </SelectTrigger>

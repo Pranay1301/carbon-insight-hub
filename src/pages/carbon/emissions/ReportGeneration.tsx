@@ -26,14 +26,14 @@ const ReportGeneration = () => {
                     <div className="bg-white text-black p-12 shadow-lg print:shadow-none print:p-0">
                         <div className="text-center mb-12">
                             <h2 className="text-4xl font-bold mb-2">2024 GHG Inventory Report</h2>
-                            <p className="text-xl text-gray-600">Trace Resource</p>
+                            <p className="text-xl text-gray-600">GreenLedger</p>
                         </div>
 
                         <div className="space-y-8">
                             <section>
                                 <h3 className="text-2xl font-bold border-b-2 border-black pb-2 mb-4">Executive Summary</h3>
                                 <p className="mb-4">
-                                    This report details the greenhouse gas (GHG) emissions inventory for Trace Resource for the reporting period of 2024.
+                                    This draft report summarises the activity data currently stored in this GreenLedger demo. Validate factors, evidence, boundaries, and methodology before external use.
                                     The inventory has been calculated in accordance with the GHG Protocol Corporate Accounting and Reporting Standard.
                                 </p>
                                 <div className="grid grid-cols-2 gap-8 mb-4">

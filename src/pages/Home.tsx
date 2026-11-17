@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Calculator, LineChart, Footprints, ArrowRight, CheckCircle2, TrendingDown, Shield, Zap } from "lucide-react";
+import { Calculator, Footprints, ArrowRight, CheckCircle2, TrendingDown, Shield, Zap, FileCheck2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/layout/Header";
@@ -7,6 +7,14 @@ import Footer from "@/components/layout/Footer";
 
 const Home = () => {
   const tools = [
+    {
+      icon: FileCheck2,
+      title: "Climate Workspace",
+      description: "A connected executive view of evidence, factor governance, supplier requests, disclosure readiness, and reduction scenarios.",
+      features: ["Evidence and review status", "Factor version governance", "BRSR and IFRS readiness", "Scenario modelling"],
+      path: "/workspace",
+      color: "text-emerald-700 bg-emerald-700/10"
+    },
     {
       icon: Shield,
       title: "ESG Alignment Assessment",
@@ -23,7 +31,7 @@ const Home = () => {
     {
       icon: Calculator,
       title: "Carbon Emissions Calculator",
-      description: "Calculate company-wide emissions across all scopes (1, 2, 3) following GHG Protocol standards with personalized reduction strategies.",
+      description: "Capture Scope 1, 2, and 3 activity data with transparent methodologies, validation checks, and reduction planning.",
       features: [
         "Full Scope 1, 2, 3 tracking",
         "GHG Protocol compliant",
@@ -83,7 +91,7 @@ const Home = () => {
               Your Sustainability Intelligence Platform
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              Three expert tools for comprehensive ESG assessment, emissions tracking, and carbon footprint calculation—accessible, transparent, and built for sustainability.
+              Evidence-first carbon accounting for teams that need to measure, explain, and reduce their climate impact. Start with activity data, then keep the factor, document, and decision trail together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild className="bg-primary hover:bg-primary-light text-primary-foreground shadow-lg hover:shadow-xl transition-all">
@@ -102,7 +110,7 @@ const Home = () => {
 
           {/* Impact Bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            {["3 Expert Tools", "All Sectors", "Transparent Methods", "Free & Fast"].map((item, index) => (
+            {["Evidence-first", "Scope 1, 2 & 3", "Factor governance", "Scenario planning"].map((item, index) => (
               <div key={index} className="bg-card border border-border rounded-lg p-4 text-center shadow-sm">
                 <p className="font-semibold text-foreground">{item}</p>
               </div>
@@ -136,7 +144,7 @@ const Home = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Sustainability Tools</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Choose the right tool for your sustainability goals. Each tool provides transparent calculations and actionable insights.
+              Begin in the workspace for an auditable operating view, then use the calculators to collect and model activity data.
             </p>
           </div>
 
@@ -181,13 +189,13 @@ const Home = () => {
             Ready to Start Your Sustainability Journey?
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join organizations worldwide using Trace Resource to measure, manage, and reduce their environmental impact.
+            Make every emissions number easier to validate, explain, and act on.
           </p>
           <Button size="lg" asChild className="bg-primary hover:bg-primary-light text-primary-foreground shadow-lg hover:shadow-xl">
-            <a href="#tools">
-              Choose Your Tool
+            <Link to="/workspace">
+              Open Climate Workspace
               <ArrowRight className="ml-2 w-5 h-5" />
-            </a>
+            </Link>
           </Button>
         </div>
       </section>

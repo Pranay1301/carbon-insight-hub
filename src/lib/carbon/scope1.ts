@@ -25,7 +25,7 @@ export const calculateMobileCombustion = (
 
     if (method === "distance") {
         distanceSources.forEach(source => {
-            let factor = MOBILE_DISTANCE_FACTORS[source.vehicleType as keyof typeof MOBILE_DISTANCE_FACTORS];
+            const factor = MOBILE_DISTANCE_FACTORS[source.vehicleType as keyof typeof MOBILE_DISTANCE_FACTORS];
 
             // Convert miles to km if needed (factor is per km)
             let distanceKm = source.distance;
