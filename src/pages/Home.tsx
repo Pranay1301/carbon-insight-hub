@@ -34,7 +34,7 @@ const Home = () => {
       description: "Capture Scope 1, 2, and 3 activity data with transparent methodologies, validation checks, and reduction planning.",
       features: [
         "Full Scope 1, 2, 3 tracking",
-        "GHG Protocol compliant",
+        "GHG Protocol-aligned structure",
         "Reduction pathway planning",
         "Carbon credit guidance"
       ],
@@ -60,7 +60,7 @@ const Home = () => {
     {
       icon: Zap,
       title: "Fast & Efficient",
-      description: "All calculations run client-side for instant results and maximum privacy"
+      description: "Core demo calculations run in the browser for instant feedback; Supabase persistence is optional"
     },
     {
       icon: CheckCircle2,
@@ -74,8 +74,8 @@ const Home = () => {
     },
     {
       icon: Shield,
-      title: "Standards Compliant",
-      description: "Aligned with GHG Protocol, GRI, SASB, ISO, and SDG frameworks"
+      title: "Standards-Aware",
+      description: "Structured around GHG Protocol, GRI, SASB, ISO, and SDG concepts; external reporting still needs reviewed data and human assurance"
     }
   ];
 

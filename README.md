@@ -7,7 +7,9 @@ An evidence-first climate accounting and ESG workspace for teams that need to me
 
 ## Demo
 
-[Watch the 12-second product tour](./docs/demo/carbon-insight-hub-demo.mp4)
+[Watch the 8-second interactive walkthrough](./docs/demo/carbon-insight-hub-demo.mp4)
+
+The recording exercises real navigation and form entry with fixture/demo data only; it does not use live customer data.
 
 ![GreenLedger home page](./docs/demo/home.png)
 
@@ -91,6 +93,7 @@ Current local verification for this upgrade:
 - ESLint passes with 0 errors and 9 warnings.
 - Strict application TypeScript check passes.
 - Desktop and mobile visual QA passed on `/`, `/workspace`, `/carbon-emissions`, `/carbon-footprint`, `/carbon-footprint/dashboard`, `/esg-due-diligence`, and `/about` with no console errors or horizontal overflow in the final checks.
+- Compatible dependency fixes were applied for the direct runtime high-severity audit findings in `react-router-dom` and `zod`. The remaining high-severity finding is the Vite development server chain and requires a breaking Vite major upgrade; the deployed static site does not run that server. Remaining moderate findings are documented by `npm audit` and include a React Router advisory that requires a separate v7 migration review.
 
 The production bundle currently emits Vite's standard warning that the main JavaScript chunk is larger than 500 kB. Future optimization should split calculator and ESG routes with dynamic imports.
 

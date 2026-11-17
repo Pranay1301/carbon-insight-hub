@@ -86,7 +86,7 @@ const About = () => {
                 </li>
                 <li className="flex items-start gap-2">
                   <Leaf className="w-5 h-5 text-success mt-0.5 flex-shrink-0" />
-                  <span><strong>Accessible design:</strong> WCAG 2.1 AA compliant with keyboard navigation and screen reader support</span>
+                  <span><strong>Accessibility-minded:</strong> semantic controls and keyboard-friendly patterns; a full WCAG 2.1 AA audit has not been completed</span>
                 </li>
               </ul>
             </div>

@@ -21,7 +21,7 @@ const CarbonLanding = () => {
                             Carbon Emissions Calculator
                         </h1>
                         <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-                            Measure your organization's Scope 1, 2, and 3 emissions in compliance with the GHG Protocol Corporate Standard.
+                            Measure your organization's Scope 1, 2, and 3 emissions with workflows structured around the GHG Protocol Corporate Standard.
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center gap-4">
                             <Button size="lg" className="w-full sm:w-auto" onClick={() => navigate("/carbon-emissions/profile")}>
